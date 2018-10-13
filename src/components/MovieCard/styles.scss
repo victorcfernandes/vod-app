@@ -1,0 +1,11 @@
+.movie-card {
+  &__title {
+    padding: 5px 0;
+
+    font-size: 1.6rem;
+  }
+}
+
+.swiper-slide-active {
+  border: 1px blue solid;
+}

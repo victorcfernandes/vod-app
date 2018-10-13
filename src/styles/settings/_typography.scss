@@ -18,11 +18,9 @@ body {
 
 //------FONT FAMILY VARIBALE
 
-$fontDefault: Arial, Helvetica, Tahoma, sans-serif;
+$baseFont: Arial, Helvetica, Tahoma, sans-serif;
 
-$baseFont: "Nunito Sans", $fontDefault;
-
-//------GLOBAL FONT SETTINGS FOR HEADERS
+//------GLOBAL FONT SETTINGS
 body {
   font-size: 100%;
   font-family: $baseFont;

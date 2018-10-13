@@ -20,11 +20,7 @@ class Home extends React.Component {
 
   render() {
     return (
-      <div className="container">
-        <MoviesList />
-
-        {this.state.data ? this.state.data.entries.map(movie => <p>{movie.title}</p>) : null}
-      </div>
+      <div className="container">{this.state.data && <MoviesList data={this.state.data} />}</div>
     );
   }
 }
