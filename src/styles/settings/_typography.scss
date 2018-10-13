@@ -1,0 +1,29 @@
+///------------------------------------
+//    #SETTINGS
+//------------------------------------
+
+//------DIMENSIONS
+$baseFontSize: 10;
+
+html {
+  $fontSizePX: $baseFontSize + px;
+
+  overflow-x: hidden;
+  font-size: $fontSizePX;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+//------FONT FAMILY VARIBALE
+
+$fontDefault: Arial, Helvetica, Tahoma, sans-serif;
+
+$baseFont: "Nunito Sans", $fontDefault;
+
+//------GLOBAL FONT SETTINGS FOR HEADERS
+body {
+  font-size: 100%;
+  font-family: $baseFont;
+}

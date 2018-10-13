@@ -1,0 +1,11 @@
+@mixin textOverflow($font-size, $line-height, $lines-to-show) {
+  display: block; /* Fallback for non-webkit */
+  display: -webkit-box;
+  max-height: $font-size * $line-height * $lines-to-show; /* Fallback for non-webkit */
+  font-size: $font-size;
+  line-height: $line-height;
+  -webkit-line-clamp: $lines-to-show;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
