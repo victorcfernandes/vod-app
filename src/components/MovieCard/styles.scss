@@ -1,8 +1,14 @@
 .movie-card {
+  padding: 5px;
+
   &__title {
     padding: 5px 0;
 
     font-size: 1.6rem;
+  }
+
+  &__image {
+    width: 100%;
   }
 }
 

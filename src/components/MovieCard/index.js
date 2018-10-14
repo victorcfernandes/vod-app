@@ -10,7 +10,7 @@ const MoviesCard = ({ movie }) => (
       src={placeholder}
       data-src={movie.images[0].url}
       alt="Movie poster"
-      className="swiper-lazy"
+      className="movie-card__image swiper-lazy"
     />
     <div className="swiper-lazy-preloader" />
     <p className="movie-card__title">{movie.title}</p>

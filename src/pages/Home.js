@@ -1,10 +1,12 @@
 import React from "react";
 
 import MoviesList from "../components/MoviesList";
+import Player from "../components/Player";
 
 class Home extends React.Component {
   state = {
-    data: null
+    data: null,
+    playing: true
   };
 
   componentDidMount = () => {
@@ -19,8 +21,12 @@ class Home extends React.Component {
   }
 
   render() {
+    const { data, playing } = this.state;
     return (
-      <div className="container">{this.state.data && <MoviesList data={this.state.data} />}</div>
+      <div className="container">
+        {data && <MoviesList data={data} />}
+        {playing && <Player />}
+      </div>
     );
   }
 }

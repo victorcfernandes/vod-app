@@ -15,7 +15,7 @@ class MoviesList extends React.Component {
         nextEl: ".swiper-button-next",
         prevEl: ".swiper-button-prev"
       },
-      slidesPerView: 3.5,
+      slidesPerView: 4.5,
       spaceBetween: 15,
       keyboard: {
         enabled: true,
