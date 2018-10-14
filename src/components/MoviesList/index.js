@@ -11,7 +11,7 @@ class MoviesList extends React.Component {
   componentDidMount() {
     const isNavigationOnSlider = this.props.appState.activeLink.y === 1;
     this.swiper = new Swiper(".swiper-container", {
-      loop: true,
+      loop: false,
       navigation: {
         nextEl: ".swiper-button-next",
         prevEl: ".swiper-button-prev"
@@ -32,9 +32,20 @@ class MoviesList extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const isNavigationOnSlider = this.props.appState.activeLink.y === 1;
+    const { appState } = this.props;
+    const isNavigationOnSlider = appState.activeLink.y === 1;
 
     isNavigationOnSlider ? this.swiper.keyboard.enable() : this.swiper.keyboard.disable();
+
+    // Sync Slider navigation with state
+    if (isNavigationOnSlider && appState.activeLink.x !== this.swiper.activeIndex) {
+      this.props.setAppState({
+        activeLink: {
+          x: this.swiper.activeIndex,
+          y: appState.activeLink.y
+        }
+      });
+    }
   }
 
   render() {

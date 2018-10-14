@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { withRouter } from "react-router";
+import { Route, Switch } from "react-router-dom";
 import { HotKeys } from "react-hotkeys";
 
 import "./styles/styles.scss";
@@ -38,7 +39,7 @@ class App extends Component {
 
       if (typeof navMap[activeLink.y - 1] !== "undefined") {
         this.setState(prevState => ({
-          activeLink: { ...prevState.activeLink, y: prevState.activeLink.y - 1 }
+          activeLink: { x: 0, y: prevState.activeLink.y - 1 }
         }));
       }
     },
@@ -47,7 +48,7 @@ class App extends Component {
 
       if (typeof navMap[activeLink.y + 1] !== "undefined") {
         this.setState(prevState => ({
-          activeLink: { ...prevState.activeLink, y: prevState.activeLink.y + 1 }
+          activeLink: { x: 0, y: prevState.activeLink.y + 1 }
         }));
       }
     },
@@ -68,34 +69,37 @@ class App extends Component {
           activeLink: { ...prevState.activeLink, x: prevState.activeLink.x - 1 }
         }));
       }
-    }
+    },
+    enter: () => {
+      const { activeLink, navMap } = this.state;
+      const url = navMap[activeLink.y][activeLink.x].url;
+
+      this.props.history.push(url);
+    },
+    esc: () => {}
   };
 
   render() {
     const { activeLink } = this.state;
     return (
-      <div className="App">
-        <Router>
-          <HotKeys keyMap={keyMap} handlers={this.keyHandlers}>
-            <div ref={this.appRef} tabIndex={1}>
-              <Header activeRow={activeLink.y === 0} activeLink={activeLink} />
+      <HotKeys keyMap={keyMap} handlers={this.keyHandlers}>
+        <div className="App" ref={this.appRef} tabIndex={1}>
+          <Header activeRow={activeLink.y === 0} activeLink={activeLink} />
 
-              <Switch>
-                <Route
-                  path="/"
-                  exact
-                  render={() => <Home setAppState={this.setAppState} appState={this.state} />}
-                />
-                <Route path="/history" exact component={History} />
-                <Route path="/movie" exact component={Movie} />
-                <Route component={NotFound} />
-              </Switch>
-            </div>
-          </HotKeys>
-        </Router>
-      </div>
+          <Switch>
+            <Route
+              path="/"
+              exact
+              render={() => <Home setAppState={this.setAppState} appState={this.state} />}
+            />
+            <Route path="/history" exact component={History} />
+            <Route path="/movie" exact component={Movie} />
+            <Route component={NotFound} />
+          </Switch>
+        </div>
+      </HotKeys>
     );
   }
 }
 
-export default App;
+export default withRouter(App);

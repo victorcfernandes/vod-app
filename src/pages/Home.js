@@ -39,7 +39,13 @@ class Home extends React.Component {
     const { data, playing } = this.state;
     return (
       <div className="container">
-        {data && <MoviesList data={data} appState={this.props.appState} />}
+        {data && (
+          <MoviesList
+            data={data}
+            appState={this.props.appState}
+            setAppState={this.props.setAppState}
+          />
+        )}
         {playing && <Player />}
       </div>
     );
