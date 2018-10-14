@@ -9,7 +9,8 @@ import MovieCard from "../MovieCard";
 
 class MoviesList extends React.Component {
   componentDidMount() {
-    new Swiper(".swiper-container", {
+    const isNavigationOnSlider = this.props.appState.activeLink.y === 1;
+    this.swiper = new Swiper(".swiper-container", {
       loop: true,
       navigation: {
         nextEl: ".swiper-button-next",
@@ -18,8 +19,8 @@ class MoviesList extends React.Component {
       slidesPerView: 4.5,
       spaceBetween: 15,
       keyboard: {
-        enabled: true,
-        onlyInViewport: false
+        enabled: isNavigationOnSlider,
+        onlyInViewport: true
       },
       lazy: {
         loadPrevNext: true,
@@ -28,6 +29,12 @@ class MoviesList extends React.Component {
       watchSlidesVisibility: true,
       centeredSlides: true
     });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const isNavigationOnSlider = this.props.appState.activeLink.y === 1;
+
+    isNavigationOnSlider ? this.swiper.keyboard.enable() : this.swiper.keyboard.disable();
   }
 
   render() {
