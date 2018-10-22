@@ -32,7 +32,7 @@ class MoviesList extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { appState } = this.props;
+    const { appState } = prevProps;
     const isNavigationOnSlider = appState.activeLink.y === 1;
 
     isNavigationOnSlider ? this.swiper.keyboard.enable() : this.swiper.keyboard.disable();
@@ -49,9 +49,13 @@ class MoviesList extends React.Component {
   }
 
   render() {
-    const { data } = this.props;
+    const { data, appState } = this.props;
+    const isNavigationOnSlider = appState.activeLink.y === 1;
     return (
-      <div className="swiper-container movie-list">
+      <div
+        className={`swiper-container movie-list ${
+          isNavigationOnSlider ? "movie-list--active" : ""
+        }`}>
         <ul className="swiper-wrapper">
           {data ? data.entries.map((movie, key) => <MovieCard movie={movie} key={key} />) : null}
         </ul>

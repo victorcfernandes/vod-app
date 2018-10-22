@@ -24,6 +24,10 @@ class App extends Component {
     this.appRef.current.focus();
   };
 
+  componentDidUpdate(prevProps, prevState) {
+    console.log(this.state.activeLink.x);
+  }
+
   state = {
     navMap: [[{ name: "home", url: "/" }, { name: "history", url: "/history" }]],
     activeLink: { x: 0, y: 0 }
@@ -55,7 +59,10 @@ class App extends Component {
     moveRight: () => {
       const { activeLink, navMap } = this.state;
 
-      if (typeof navMap[activeLink.y][activeLink.x + 1] !== "undefined") {
+      if (
+        typeof navMap[activeLink.y] !== "undefined" &&
+        typeof navMap[activeLink.y][activeLink.x + 1] !== "undefined"
+      ) {
         this.setState(prevState => ({
           activeLink: { ...prevState.activeLink, x: prevState.activeLink.x + 1 }
         }));
@@ -64,7 +71,10 @@ class App extends Component {
     moveleft: () => {
       const { activeLink, navMap } = this.state;
 
-      if (typeof navMap[activeLink.y][activeLink.x - 1] !== "undefined") {
+      if (
+        typeof navMap[activeLink.y] !== "undefined" &&
+        typeof navMap[activeLink.y][activeLink.x - 1] !== "undefined"
+      ) {
         this.setState(prevState => ({
           activeLink: { ...prevState.activeLink, x: prevState.activeLink.x - 1 }
         }));
@@ -75,8 +85,11 @@ class App extends Component {
       const url = navMap[activeLink.y][activeLink.x].url;
 
       this.props.history.push(url);
+      this.setState({ activeLink: { x: 0, y: 0 } });
     },
-    esc: () => {}
+    esc: () => {
+      this.props.history.push("/");
+    }
   };
 
   render() {
@@ -93,7 +106,7 @@ class App extends Component {
               render={() => <Home setAppState={this.setAppState} appState={this.state} />}
             />
             <Route path="/history" exact component={History} />
-            <Route path="/movie" exact component={Movie} />
+            <Route path="/movie/:id" component={Movie} />
             <Route component={NotFound} />
           </Switch>
         </div>
