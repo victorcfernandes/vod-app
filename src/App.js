@@ -20,18 +20,26 @@ class App extends Component {
     this.appRef = React.createRef();
   }
 
-  componentDidMount = () => {
-    this.appRef.current.focus();
-  };
-
-  componentDidUpdate(prevProps, prevState) {
-    console.log(this.state.activeLink.x);
-  }
-
   state = {
+    data: null,
     navMap: [[{ name: "home", url: "/" }, { name: "history", url: "/history" }]],
     activeLink: { x: 0, y: 0 }
   };
+
+  async componentDidMount() {
+    console.log("oi");
+
+    await this.fetchData();
+
+    this.appRef.current.focus();
+  }
+
+  async fetchData() {
+    const response = await fetch("https://demo2697834.mockable.io/movies");
+    const data = await response.json();
+
+    this.setState({ data: data });
+  }
 
   setAppState = newState => {
     this.setState(newState);
@@ -93,7 +101,7 @@ class App extends Component {
   };
 
   render() {
-    const { activeLink } = this.state;
+    const { activeLink, data } = this.state;
     return (
       <HotKeys keyMap={keyMap} handlers={this.keyHandlers}>
         <div className="App" ref={this.appRef} tabIndex={1}>
@@ -103,7 +111,9 @@ class App extends Component {
             <Route
               path="/"
               exact
-              render={() => <Home setAppState={this.setAppState} appState={this.state} />}
+              render={() =>
+                data ? <Home setAppState={this.setAppState} appState={this.state} /> : "Loading..."
+              }
             />
             <Route path="/history" exact component={History} />
             <Route path="/movie/:id" component={Movie} />

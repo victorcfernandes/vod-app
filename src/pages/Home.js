@@ -1,18 +1,12 @@
 import React from "react";
 
 import MoviesList from "../components/MoviesList";
-import Player from "../components/Player";
 
 class Home extends React.Component {
-  state = {
-    data: null,
-    playing: null
-  };
+  componentDidMount() {
+    console.log(this.props.appState.data);
 
-  async componentDidMount() {
-    await this.fetchData();
-
-    const movieLinks = this.state.data.entries.reduce((acumulator, item, index) => {
+    const movieLinks = this.props.appState.data.entries.reduce((acumulator, item, index) => {
       acumulator.push({ name: item.title, url: `/movie/${index}` });
       return acumulator;
     }, []);
@@ -28,15 +22,8 @@ class Home extends React.Component {
     this.props.setAppState({ navMap: navMap });
   }
 
-  async fetchData() {
-    const response = await fetch("https://demo2697834.mockable.io/movies");
-    const data = await response.json();
-
-    this.setState({ data: data });
-  }
-
   render() {
-    const { data, playing } = this.state;
+    const { data } = this.props.appState;
     return (
       <div className="container">
         {data && (
@@ -46,7 +33,6 @@ class Home extends React.Component {
             setAppState={this.props.setAppState}
           />
         )}
-        {playing && <Player />}
       </div>
     );
   }
