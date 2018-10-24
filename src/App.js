@@ -43,9 +43,6 @@ class App extends Component {
     window.removeEventListener("beforeunload", () =>
       localStorage.setItem("history", JSON.stringify(this.state["history"]))
     );
-
-    // saves if component has a chance to unmount
-    localStorage.setItem("history", JSON.stringify(this.state["history"]));
   }
 
   async fetchData() {
