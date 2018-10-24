@@ -30,7 +30,22 @@ class App extends Component {
   async componentDidMount() {
     await this.fetchData();
 
+    this.hydrateStateWithLocalStorage();
+
     this.appRef.current.focus();
+
+    window.addEventListener("beforeunload", () =>
+      localStorage.setItem("history", JSON.stringify(this.state["history"]))
+    );
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("beforeunload", () =>
+      localStorage.setItem("history", JSON.stringify(this.state["history"]))
+    );
+
+    // saves if component has a chance to unmount
+    localStorage.setItem("history", JSON.stringify(this.state["history"]));
   }
 
   async fetchData() {
@@ -43,6 +58,15 @@ class App extends Component {
   setAppState = newState => {
     this.setState(newState);
   };
+
+  hydrateStateWithLocalStorage() {
+    if (localStorage.hasOwnProperty("history")) {
+      let value = localStorage.getItem("history");
+
+      value = JSON.parse(value);
+      this.setState({ history: value });
+    }
+  }
 
   keyHandlers = {
     moveUp: () => {
@@ -114,7 +138,11 @@ class App extends Component {
                 data ? <Home setAppState={this.setAppState} appState={this.state} /> : "Loading..."
               }
             />
-            <Route path="/history" exact component={History} />
+            <Route
+              path="/history"
+              exact
+              render={() => <History setAppState={this.setAppState} appState={this.state} />}
+            />
             <Route
               path="/movie/:id"
               render={({ match }) =>

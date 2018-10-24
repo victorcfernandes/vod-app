@@ -9,6 +9,8 @@ import MovieCard from "../MovieCard";
 
 class MoviesList extends React.Component {
   componentDidMount() {
+    this.updateNavMap();
+
     const isNavigationOnSlider = this.props.appState.activeLink.y === 1;
     this.swiper = new Swiper(".swiper-container", {
       loop: false,
@@ -48,8 +50,25 @@ class MoviesList extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    const navMap = this.props.appState.navMap.slice(0, 1);
+
+    this.props.setAppState({ navMap: navMap });
+  }
+
+  updateNavMap() {
+    const movieLinks = this.props.movies.reduce((acumulator, item, index) => {
+      acumulator.push({ name: item.title, url: `/movie/${index}` });
+      return acumulator;
+    }, []);
+
+    const navMap = [...this.props.appState.navMap, [...movieLinks]];
+
+    this.props.setAppState({ navMap });
+  }
+
   render() {
-    const { data, appState } = this.props;
+    const { movies, appState } = this.props;
     const isNavigationOnSlider = appState.activeLink.y === 1;
     return (
       <div
@@ -57,7 +76,7 @@ class MoviesList extends React.Component {
           isNavigationOnSlider ? "movie-list--active" : ""
         }`}>
         <ul className="swiper-wrapper">
-          {data ? data.entries.map((movie, key) => <MovieCard movie={movie} key={key} />) : null}
+          {movies ? movies.map((movie, key) => <MovieCard movie={movie} key={key} />) : null}
         </ul>
 
         <div className="swiper-pagination" />
