@@ -4,8 +4,6 @@ import MoviesList from "../components/MoviesList";
 
 class Home extends React.Component {
   componentDidMount() {
-    console.log(this.props.appState.data);
-
     const movieLinks = this.props.appState.data.entries.reduce((acumulator, item, index) => {
       acumulator.push({ name: item.title, url: `/movie/${index}` });
       return acumulator;

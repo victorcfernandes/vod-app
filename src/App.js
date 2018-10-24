@@ -22,13 +22,12 @@ class App extends Component {
 
   state = {
     data: null,
+    history: null,
     navMap: [[{ name: "home", url: "/" }, { name: "history", url: "/history" }]],
     activeLink: { x: 0, y: 0 }
   };
 
   async componentDidMount() {
-    console.log("oi");
-
     await this.fetchData();
 
     this.appRef.current.focus();
@@ -116,7 +115,21 @@ class App extends Component {
               }
             />
             <Route path="/history" exact component={History} />
-            <Route path="/movie/:id" component={Movie} />
+            <Route
+              path="/movie/:id"
+              render={({ match }) =>
+                data ? (
+                  <Movie
+                    movieId={match.params.id}
+                    movie={this.state.data.entries[match.params.id]}
+                    setAppState={this.setAppState}
+                    appState={this.state}
+                  />
+                ) : (
+                  "Loading..."
+                )
+              }
+            />
             <Route component={NotFound} />
           </Switch>
         </div>

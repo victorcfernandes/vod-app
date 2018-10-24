@@ -2,9 +2,9 @@ import React from "react";
 
 import Player from "../components/Player";
 
-const Movie = () => (
+const Movie = ({ movie, movieId, setAppState, appState }) => (
   <div>
-    <Player />
+    <Player movieId={movieId} movie={movie} setAppState={setAppState} appState={appState} />
   </div>
 );
 

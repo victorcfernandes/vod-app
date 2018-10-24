@@ -12,16 +12,20 @@ class Player extends React.Component {
 
   componentDidMount() {
     this.videoRef.current.addEventListener("ended", () => this.props.history.push("/"));
+
+    const { history } = this.props.appState;
+
+    this.props.setAppState({ history: { ...history, [this.props.movieId]: this.props.movie } });
+  }
+
+  componentWillUnmount() {
+    this.videoRef.current.removeEventListener("ended", () => this.props.history.push("/"));
   }
 
   render() {
+    const videoSrc = this.props.movie.contents[0].url;
     return (
-      <video
-        className="player"
-        src="http://d2bqeap5aduv6p.cloudfront.net/project_coderush_640x360_521kbs_56min.mp4"
-        controls
-        autoPlay
-        ref={this.videoRef}>
+      <video className="player" src={videoSrc} controls autoPlay ref={this.videoRef}>
         Sorry, your browser doesn't support embedded videos.
       </video>
     );
